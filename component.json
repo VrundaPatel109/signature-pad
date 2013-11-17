@@ -1,0 +1,12 @@
+{
+    "name": "signature_pad",
+    "repo": "rogerz/signature_pad",
+    "description": "signature pad using HTML5 canvas",
+    "version": "0.0.1",
+    "keywords": ["signature", "canvas"],
+    "dependencies": {
+    },
+    "main": "signature_pad.js",
+    "scripts": ["signature_pad.js"],
+    "license": "MIT"
+}

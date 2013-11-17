@@ -15,7 +15,17 @@
  * http://www.lemoda.net/maths/bezier-length/index.html
  *
  */
-var SignaturePad = (function (document) {
+
+/**
+ * component wrapper of signature_pad
+ *
+ * @example
+ *
+ * var SignaturePad = require('signature-pad');
+ * var pad = new SignaturePad(canvas, options);
+ *
+ */
+var SignaturePad = module.exports = (function (document) {
     "use strict";
 
     var SignaturePad = function (canvas, options) {
