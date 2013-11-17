@@ -16,6 +16,8 @@
  *
  */
 
+var _ = require('underscore');
+
 /**
  * component wrapper of signature_pad
  *
@@ -47,6 +49,11 @@ var SignaturePad = module.exports = (function (document) {
 
         this._handleMouseEvents();
         this._handleTouchEvents();
+    };
+
+    SignaturePad.prototype.config = function (opts) {
+      opts = _.pick(opts, ['minWidth', 'maxWidth', 'dotSize', 'penColor', 'backgroundColor']);
+      _.extend(this, opts);
     };
 
     SignaturePad.prototype.clear = function () {
