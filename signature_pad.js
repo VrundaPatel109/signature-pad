@@ -43,12 +43,29 @@ var SignaturePad = module.exports = (function (document) {
         this.penColor = opts.penColor || "black";
         this.backgroundColor = opts.backgroundColor || "rgba(0,0,0,0)";
 
+        this._listeners = {};
+
         this._canvas = canvas;
         this._ctx   = canvas.getContext("2d");
         this.clear();
 
         this._handleMouseEvents();
         this._handleTouchEvents();
+    };
+
+    /**
+     *  Fire a event
+     */
+    SignaturePad.prototype.emit = function (eventName) {
+        return this._listeners[eventName] && this._listeners[eventName]();
+    };
+
+    /**
+     * Register fn to event
+     */
+    SignaturePad.prototype.on = function (eventName, fn) {
+        this._listeners[eventName] = fn;
+        return this;
     };
 
     SignaturePad.prototype.config = function (opts) {
@@ -91,6 +108,7 @@ var SignaturePad = module.exports = (function (document) {
     SignaturePad.prototype._strokeBegin = function (event) {
         this._reset();
         this._strokeUpdate(event);
+        this.emit('begin');
     };
 
     SignaturePad.prototype._strokeDraw = function (point) {
@@ -109,6 +127,7 @@ var SignaturePad = module.exports = (function (document) {
         if (!canDrawCurve && point) {
             this._strokeDraw(point);
         }
+        this.emit('end');
     };
 
     SignaturePad.prototype._handleMouseEvents = function () {
