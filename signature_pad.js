@@ -15,7 +15,6 @@
  * http://www.lemoda.net/maths/bezier-length/index.html
  *
  */
-
 var _ = require('underscore');
 
 /**
@@ -69,8 +68,8 @@ var SignaturePad = module.exports = (function (document) {
     };
 
     SignaturePad.prototype.config = function (opts) {
-      opts = _.pick(opts, ['minWidth', 'maxWidth', 'dotSize', 'penColor', 'backgroundColor']);
-      _.extend(this, opts);
+        opts = _.pick(opts, ['minWidth', 'maxWidth', 'dotSize', 'penColor', 'backgroundColor']);
+        _.extend(this, opts);
     };
 
     SignaturePad.prototype.clear = function () {
