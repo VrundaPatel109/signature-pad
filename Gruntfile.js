@@ -63,6 +63,17 @@ module.exports = function(grunt) {
                     'signature_pad.min.js': ['signature_pad.min.js']
                 }
             }
+        },
+
+        componentbuild: {
+            example: {
+                options: {
+                   dev: true,
+                   sourceUrls: true
+                },
+                src: '.',
+                dest: 'example/js'
+            }
         }
     });
 
@@ -82,10 +93,12 @@ module.exports = function(grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-component-build');
 
     grunt.registerTask('default', [
         'jshint',
         'banner',
-        'uglify'
+        'uglify',
+        'componentbuild'
     ]);
 };

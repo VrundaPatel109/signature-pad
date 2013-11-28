@@ -17,6 +17,7 @@ function resizeCanvas() {
 window.onresize = resizeCanvas;
 resizeCanvas();
 
+var SignaturePad = require('signature-pad');
 signaturePad = new SignaturePad(canvas);
 
 clearButton.addEventListener("click", function (event) {
