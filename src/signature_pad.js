@@ -1,33 +1,4 @@
-/*!
- * Signature Pad v1.2.4
- * https://github.com/szimek/signature_pad
- *
- * Copyright 2013 Szymon Nowak
- * Released under the MIT license
- *
- * The main idea and some parts of the code (e.g. drawing variable width Bézier curve) are taken from:
- * http://corner.squareup.com/2012/07/smoother-signatures.html
- *
- * Implementation of interpolation using cubic Bézier curves is taken from:
- * http://benknowscode.wordpress.com/2012/09/14/path-interpolation-using-cubic-bezier-and-control-point-estimation-in-javascript
- *
- * Algorithm for approximated length of a Bézier curve is taken from:
- * http://www.lemoda.net/maths/bezier-length/index.html
- *
- */
-
-var _ = require('underscore');
-
-/**
- * component wrapper of signature_pad
- *
- * @example
- *
- * var SignaturePad = require('signature-pad');
- * var pad = new SignaturePad(canvas, options);
- *
- */
-var SignaturePad = module.exports = (function (document) {
+var SignaturePad = (function (document) {
     "use strict";
 
     var SignaturePad = function (canvas, options) {
@@ -43,34 +14,12 @@ var SignaturePad = module.exports = (function (document) {
         this.penColor = opts.penColor || "black";
         this.backgroundColor = opts.backgroundColor || "rgba(0,0,0,0)";
 
-        this._listeners = {};
-
         this._canvas = canvas;
         this._ctx   = canvas.getContext("2d");
         this.clear();
 
         this._handleMouseEvents();
         this._handleTouchEvents();
-    };
-
-    /**
-     *  Fire a event
-     */
-    SignaturePad.prototype.emit = function (eventName) {
-        return this._listeners[eventName] && this._listeners[eventName]();
-    };
-
-    /**
-     * Register fn to event
-     */
-    SignaturePad.prototype.on = function (eventName, fn) {
-        this._listeners[eventName] = fn;
-        return this;
-    };
-
-    SignaturePad.prototype.config = function (opts) {
-      opts = _.pick(opts, ['minWidth', 'maxWidth', 'dotSize', 'penColor', 'backgroundColor']);
-      _.extend(this, opts);
     };
 
     SignaturePad.prototype.clear = function () {
@@ -108,7 +57,6 @@ var SignaturePad = module.exports = (function (document) {
     SignaturePad.prototype._strokeBegin = function (event) {
         this._reset();
         this._strokeUpdate(event);
-        this.emit('begin');
     };
 
     SignaturePad.prototype._strokeDraw = function (point) {
@@ -127,7 +75,6 @@ var SignaturePad = module.exports = (function (document) {
         if (!canDrawCurve && point) {
             this._strokeDraw(point);
         }
-        this.emit('end');
     };
 
     SignaturePad.prototype._handleMouseEvents = function () {
