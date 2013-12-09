@@ -1574,34 +1574,12 @@ var SignaturePad = module.exports = (function (document) {\n\
         this.penColor = opts.penColor || \"black\";\n\
         this.backgroundColor = opts.backgroundColor || \"rgba(0,0,0,0)\";\n\
 \n\
-        this._listeners = {};\n\
-\n\
         this._canvas = canvas;\n\
         this._ctx   = canvas.getContext(\"2d\");\n\
         this.clear();\n\
 \n\
         this._handleMouseEvents();\n\
         this._handleTouchEvents();\n\
-    };\n\
-\n\
-    /**\n\
-     *  Fire a event\n\
-     */\n\
-    SignaturePad.prototype.emit = function (eventName) {\n\
-        return this._listeners[eventName] && this._listeners[eventName]();\n\
-    };\n\
-\n\
-    /**\n\
-     * Register fn to event\n\
-     */\n\
-    SignaturePad.prototype.on = function (eventName, fn) {\n\
-        this._listeners[eventName] = fn;\n\
-        return this;\n\
-    };\n\
-\n\
-    SignaturePad.prototype.config = function (opts) {\n\
-        opts = _.pick(opts, ['minWidth', 'maxWidth', 'dotSize', 'penColor', 'backgroundColor']);\n\
-        _.extend(this, opts);\n\
     };\n\
 \n\
     SignaturePad.prototype.clear = function () {\n\
@@ -1639,7 +1617,9 @@ var SignaturePad = module.exports = (function (document) {\n\
     SignaturePad.prototype._strokeBegin = function (event) {\n\
         this._reset();\n\
         this._strokeUpdate(event);\n\
-        this.emit('begin');\n\
+        if (typeof this.onBegin === 'function') {\n\
+            this.onBegin(event);\n\
+        }\n\
     };\n\
 \n\
     SignaturePad.prototype._strokeDraw = function (point) {\n\
@@ -1658,7 +1638,9 @@ var SignaturePad = module.exports = (function (document) {\n\
         if (!canDrawCurve && point) {\n\
             this._strokeDraw(point);\n\
         }\n\
-        this.emit('end');\n\
+        if (typeof this.onEnd === 'function') {\n\
+            this.onEnd(event);\n\
+        }\n\
     };\n\
 \n\
     SignaturePad.prototype._handleMouseEvents = function () {\n\
@@ -1705,7 +1687,7 @@ var SignaturePad = module.exports = (function (document) {\n\
         document.addEventListener(\"touchend\", function (event) {\n\
             var wasCanvasTouched = event.target === self._canvas;\n\
             if (wasCanvasTouched) {\n\
-                self._strokeEnd();\n\
+                self._strokeEnd(event);\n\
             }\n\
         });\n\
     };\n\

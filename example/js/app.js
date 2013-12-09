@@ -20,6 +20,14 @@ resizeCanvas();
 var SignaturePad = require('signature-pad');
 signaturePad = new SignaturePad(canvas);
 
+signaturePad.onBegin = function (event) {
+    document.getElementById("description").innerHTML = "Signing...";
+};
+
+signaturePad.onEnd = function (event) {
+    document.getElementById("description").innerHTML = "Signed";
+};
+
 clearButton.addEventListener("click", function (event) {
     signaturePad.clear();
 });
