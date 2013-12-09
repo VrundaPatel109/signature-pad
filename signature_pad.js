@@ -15,8 +15,6 @@
  * http://www.lemoda.net/maths/bezier-length/index.html
  *
  */
-var _ = require('underscore');
-
 /**
  * component wrapper of signature_pad
  *

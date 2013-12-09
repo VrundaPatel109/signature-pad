@@ -1,5 +1,3 @@
-var _ = require('underscore');
-
 /**
  * component wrapper of signature_pad
  *
