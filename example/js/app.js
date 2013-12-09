@@ -30,6 +30,7 @@ signaturePad.onEnd = function (event) {
 
 clearButton.addEventListener("click", function (event) {
     signaturePad.clear();
+    document.getElementById("description").innerHTML = "Sign above";
 });
 
 saveButton.addEventListener("click", function (event) {
