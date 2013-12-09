@@ -6,7 +6,27 @@ It works in all modern desktop and mobile browsers and doesn't depend on any ext
 
 ![Example](https://f.cloud.github.com/assets/9873/268046/9ced3454-8efc-11e2-816e-a9b170a51004.png)
 
+## Additional features in this fork
+
+This fork enhances the [original repository](https://github.com/szimek/signature_pad) with the following features
+
+### Install with component
+
+```bash
+$ component install rogerz/signature-pad
+```
+
+### Used as component
+
+```javascript
+var SignaturePad = require('signature-pad');
+var pad = new SignaturePad(canvas, options);
+```
+
+See example for details
+
 ## Demo
+
 [Demo](http://rogerz.github.io/signature_pad/example) works in desktop and mobile browsers. You can check out its [source code](https://github.com/szimek/signature_pad/blob/gh-pages/js/app.js) for some tips on how to handle window resize and high DPI screens. You can also find more about the latter in [HTML5 Rocks tutorial](http://www.html5rocks.com/en/tutorials/canvas/hidpi).
 
 ## Installation
