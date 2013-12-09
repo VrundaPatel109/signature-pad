@@ -3,5 +3,4 @@ before_script:
   - npm install -g grunt-cli component
   - component install
 node_js:
-- '0.11'
-- '0.10'
+  - '0.10'
