@@ -1,14 +1,9 @@
 Signature Pad [![Code Climate](https://codeclimate.com/github/szimek/signature_pad.png)](https://codeclimate.com/github/szimek/signature_pad) [![Build Status](https://travis-ci.org/rogerz/signature-pad.png?branch=master)](https://travis-ci.org/rogerz/signature-pad)
 =============
 
-Signature Pad is a JavaScript library for drawing smooth signatures. It's HTML5 canvas based and uses variable width Bézier curve interpolation based on [Smoother Signatures](http://corner.squareup.com/2012/07/smoother-signatures.html) post by [Square](https://squareup.com).
-It works in all modern desktop and mobile browsers and doesn't depend on any external libraries.
-
-![Example](https://f.cloud.github.com/assets/9873/268046/9ced3454-8efc-11e2-816e-a9b170a51004.png)
+This fork enhances the [original repository](https://github.com/szimek/signature_pad) with the following features
 
 ## Additional features in this fork
-
-This fork enhances the [original repository](https://github.com/szimek/signature_pad) with the following features
 
 ### Install with component
 
@@ -23,7 +18,18 @@ var SignaturePad = require('signature-pad');
 var pad = new SignaturePad(canvas, options);
 ```
 
-See example for details
+### Build and open example locally
+
+```bash
+grunt
+```
+
+## Original introduction
+
+Signature Pad is a JavaScript library for drawing smooth signatures. It's HTML5 canvas based and uses variable width Bézier curve interpolation based on [Smoother Signatures](http://corner.squareup.com/2012/07/smoother-signatures.html) post by [Square](https://squareup.com).
+It works in all modern desktop and mobile browsers and doesn't depend on any external libraries.
+
+![Example](https://f.cloud.github.com/assets/9873/268046/9ced3454-8efc-11e2-816e-a9b170a51004.png)
 
 ## Demo
 
