@@ -74,6 +74,12 @@ module.exports = function(grunt) {
                 src: '.',
                 dest: 'example/js'
             }
+        },
+
+        open: {
+            example: {
+                path: 'example/index.html'
+            }
         }
     });
 
@@ -94,11 +100,13 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-component-build');
+    grunt.loadNpmTasks('grunt-open');
 
     grunt.registerTask('default', [
         'jshint',
         'banner',
         'uglify',
-        'componentbuild'
+        'componentbuild',
+        'open'
     ]);
 };

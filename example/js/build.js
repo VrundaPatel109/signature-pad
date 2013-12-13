@@ -201,7 +201,7 @@ require.relative = function(parent) {
 };
 require.register("signature-pad/signature_pad.js", Function("exports, require, module",
 "/*!\n\
- * Signature Pad v1.2.4\n\
+ * Signature Pad v1.3.2\n\
  * https://github.com/szimek/signature_pad\n\
  *\n\
  * Copyright 2013 Szymon Nowak\n\
@@ -241,9 +241,11 @@ var SignaturePad = module.exports = (function (document) {\n\
         };\n\
         this.penColor = opts.penColor || \"black\";\n\
         this.backgroundColor = opts.backgroundColor || \"rgba(0,0,0,0)\";\n\
+        this.onEnd = opts.onEnd;\n\
+        this.onBegin = opts.onBegin;\n\
 \n\
         this._canvas = canvas;\n\
-        this._ctx   = canvas.getContext(\"2d\");\n\
+        this._ctx = canvas.getContext(\"2d\");\n\
         this.clear();\n\
 \n\
         this._handleMouseEvents();\n\
@@ -291,18 +293,19 @@ var SignaturePad = module.exports = (function (document) {\n\
     };\n\
 \n\
     SignaturePad.prototype._strokeDraw = function (point) {\n\
-      var ctx = this._ctx,\n\
-          dotSize = typeof(this.dotSize) === 'function' ? this.dotSize() : this.dotSize;\n\
+        var ctx = this._ctx,\n\
+            dotSize = typeof(this.dotSize) === 'function' ? this.dotSize() : this.dotSize;\n\
 \n\
-      ctx.beginPath();\n\
-      this._drawPoint(point.x, point.y, dotSize);\n\
-      ctx.closePath();\n\
-      ctx.fill();\n\
+        ctx.beginPath();\n\
+        this._drawPoint(point.x, point.y, dotSize);\n\
+        ctx.closePath();\n\
+        ctx.fill();\n\
     };\n\
 \n\
     SignaturePad.prototype._strokeEnd = function (event) {\n\
-        var canDrawCurve = this.points.length > 2;\n\
-        var point = this.points[0];\n\
+        var canDrawCurve = this.points.length > 2,\n\
+            point = this.points[0];\n\
+\n\
         if (!canDrawCurve && point) {\n\
             this._strokeDraw(point);\n\
         }\n\
@@ -339,13 +342,16 @@ var SignaturePad = module.exports = (function (document) {\n\
     SignaturePad.prototype._handleTouchEvents = function () {\n\
         var self = this;\n\
 \n\
+        // Pass touch events to canvas element on mobile IE.\n\
+        this._canvas.style.msTouchAction = 'none';\n\
+\n\
         this._canvas.addEventListener(\"touchstart\", function (event) {\n\
             var touch = event.changedTouches[0];\n\
             self._strokeBegin(touch);\n\
         });\n\
 \n\
         this._canvas.addEventListener(\"touchmove\", function (event) {\n\
-            // Prevent scrolling;\n\
+            // Prevent scrolling.\n\
             event.preventDefault();\n\
 \n\
             var touch = event.changedTouches[0];\n\
@@ -389,7 +395,7 @@ var SignaturePad = module.exports = (function (document) {\n\
 \n\
         if (points.length > 2) {\n\
             // To reduce the initial lag make it work with 3 points\n\
-            // by copying the first point to the beginning\n\
+            // by copying the first point to the beginning.\n\
             if (points.length === 3) points.unshift(points[0]);\n\
 \n\
             tmp = this._calculateCurveControlPoints(points[0], points[1], points[2]);\n\
@@ -450,7 +456,7 @@ var SignaturePad = module.exports = (function (document) {\n\
         var ctx = this._ctx;\n\
 \n\
         ctx.moveTo(x, y);\n\
-        ctx.arc(x, y, size, 0 , 2 * Math.PI, false);\n\
+        ctx.arc(x, y, size, 0, 2 * Math.PI, false);\n\
         this._isEmpty = false;\n\
     };\n\
 \n\
@@ -513,7 +519,7 @@ var SignaturePad = module.exports = (function (document) {\n\
         this.endPoint = endPoint;\n\
     };\n\
 \n\
-    // Returns approximated length\n\
+    // Returns approximated length.\n\
     Bezier.prototype.length = function () {\n\
         var steps = 10,\n\
             length = 0,\n\
