@@ -22,9 +22,11 @@ var SignaturePad = module.exports = (function (document) {
         };
         this.penColor = opts.penColor || "black";
         this.backgroundColor = opts.backgroundColor || "rgba(0,0,0,0)";
+        this.onEnd = opts.onEnd;
+        this.onBegin = opts.onBegin;
 
         this._canvas = canvas;
-        this._ctx   = canvas.getContext("2d");
+        this._ctx = canvas.getContext("2d");
         this.clear();
 
         this._handleMouseEvents();
@@ -72,18 +74,19 @@ var SignaturePad = module.exports = (function (document) {
     };
 
     SignaturePad.prototype._strokeDraw = function (point) {
-      var ctx = this._ctx,
-          dotSize = typeof(this.dotSize) === 'function' ? this.dotSize() : this.dotSize;
+        var ctx = this._ctx,
+            dotSize = typeof(this.dotSize) === 'function' ? this.dotSize() : this.dotSize;
 
-      ctx.beginPath();
-      this._drawPoint(point.x, point.y, dotSize);
-      ctx.closePath();
-      ctx.fill();
+        ctx.beginPath();
+        this._drawPoint(point.x, point.y, dotSize);
+        ctx.closePath();
+        ctx.fill();
     };
 
     SignaturePad.prototype._strokeEnd = function (event) {
-        var canDrawCurve = this.points.length > 2;
-        var point = this.points[0];
+        var canDrawCurve = this.points.length > 2,
+            point = this.points[0];
+
         if (!canDrawCurve && point) {
             this._strokeDraw(point);
         }
@@ -120,13 +123,16 @@ var SignaturePad = module.exports = (function (document) {
     SignaturePad.prototype._handleTouchEvents = function () {
         var self = this;
 
+        // Pass touch events to canvas element on mobile IE.
+        this._canvas.style.msTouchAction = 'none';
+
         this._canvas.addEventListener("touchstart", function (event) {
             var touch = event.changedTouches[0];
             self._strokeBegin(touch);
         });
 
         this._canvas.addEventListener("touchmove", function (event) {
-            // Prevent scrolling;
+            // Prevent scrolling.
             event.preventDefault();
 
             var touch = event.changedTouches[0];
@@ -170,7 +176,7 @@ var SignaturePad = module.exports = (function (document) {
 
         if (points.length > 2) {
             // To reduce the initial lag make it work with 3 points
-            // by copying the first point to the beginning
+            // by copying the first point to the beginning.
             if (points.length === 3) points.unshift(points[0]);
 
             tmp = this._calculateCurveControlPoints(points[0], points[1], points[2]);
@@ -231,7 +237,7 @@ var SignaturePad = module.exports = (function (document) {
         var ctx = this._ctx;
 
         ctx.moveTo(x, y);
-        ctx.arc(x, y, size, 0 , 2 * Math.PI, false);
+        ctx.arc(x, y, size, 0, 2 * Math.PI, false);
         this._isEmpty = false;
     };
 
@@ -294,7 +300,7 @@ var SignaturePad = module.exports = (function (document) {
         this.endPoint = endPoint;
     };
 
-    // Returns approximated length
+    // Returns approximated length.
     Bezier.prototype.length = function () {
         var steps = 10,
             length = 0,
